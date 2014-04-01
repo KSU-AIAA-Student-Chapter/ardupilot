@@ -81,6 +81,7 @@ static NOINLINE void send_fence_status(mavlink_channel_t chan);
 static NOINLINE void send_extended_status1(mavlink_channel_t chan, uint16_t packet_drops);
 static void NOINLINE send_meminfo(mavlink_channel_t chan);
 static void NOINLINE send_location(mavlink_channel_t chan);
+static void NOINLINE send_time(mavlink_channel_t chan);
 static void NOINLINE send_nav_controller_output(mavlink_channel_t chan);
 static void NOINLINE send_gps_raw(mavlink_channel_t chan);
 static void NOINLINE send_servo_out(mavlink_channel_t chan);
@@ -278,32 +279,32 @@ static void servo_write(uint8_t ch, uint16_t pwm);
 static void print_hit_enter();
 static void test_wp_print(const struct Location *cmd, uint8_t wp_index);
 
-#include "C:\ArduPilot-Arduino-1.0.3-windows\ArduPilot-Arduino-1.0.3-windows\hardware\apm\cores\apmHAL\arduino.h"
-#include "C:\ardupilot_AIAA\ArduPlane\ArduPlane.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\APM_Config.h"
-#include "C:\ardupilot_AIAA\ArduPlane\Attitude.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\GCS.h"
-#include "C:\ardupilot_AIAA\ArduPlane\GCS_Mavlink.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\Log.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\Parameters.h"
-#include "C:\ardupilot_AIAA\ArduPlane\Parameters.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\climb_rate.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\commands.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\commands_logic.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\commands_process.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\compat.h"
-#include "C:\ardupilot_AIAA\ArduPlane\compat.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\config.h"
-#include "C:\ardupilot_AIAA\ArduPlane\control_modes.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\defines.h"
-#include "C:\ardupilot_AIAA\ArduPlane\events.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\failsafe.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\geofence.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\navigation.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\radio.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\rally.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\sensors.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\setup.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\system.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\test.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ArduPilot-Arduino-1.0.3-windows\hardware\apm\cores\apmHAL\arduino.h"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\ArduPlane.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\APM_Config.h"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\Attitude.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\GCS.h"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\GCS_Mavlink.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\Log.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\Parameters.h"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\Parameters.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\climb_rate.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\commands.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\commands_logic.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\commands_process.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\compat.h"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\compat.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\config.h"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\control_modes.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\defines.h"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\events.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\failsafe.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\geofence.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\navigation.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\radio.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\rally.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\sensors.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\setup.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\system.pde"
+#include "C:\Users\Sydney\Documents\AIAA Autopilot\ardupilot\ArduPlane\test.pde"
 #endif

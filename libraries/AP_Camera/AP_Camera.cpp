@@ -101,7 +101,12 @@ AP_Camera::trigger_pic_cleanup()
             case AP_CAMERA_TRIGGER_TYPE_RELAY:
                 _apm_relay->off();
                 break;
+				
         }
+	//Sydney Schinstock AIAA-KSU
+	if
+		{
+		}
     }
 }
 
@@ -135,6 +140,7 @@ void
 AP_Camera::control_msg(mavlink_message_t* msg)
 {
     __mavlink_digicam_control_t packet;
+	//decode message and puts it in 'packet'
     mavlink_msg_digicam_control_decode(msg, &packet);
     if (mavlink_check_target(packet.target_system, packet.target_component)) {
         // not for us
