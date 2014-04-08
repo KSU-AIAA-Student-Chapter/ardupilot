@@ -104,8 +104,12 @@ AP_Camera::trigger_pic_cleanup()
 				
         }
 	//Sydney Schinstock AIAA-KSU
-	if
+		if (_camera_delay)
 		{
+			_camera_delay--;
+			GCS_MAVLINK::send_message(MSG_SYSTEM_TIME);
+			GCS_MAVLINK::send_message(MSG_ATTITUDE);
+			GCS_MAVLINK::send_message(MSG_LOCATION);
 		}
     }
 }

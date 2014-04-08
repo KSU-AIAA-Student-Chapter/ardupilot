@@ -262,7 +262,8 @@ static void NOINLINE send_location(mavlink_channel_t chan)
         g_gps->velocity_down()  * -100, // Z speed cm/s (+ve up)
         ahrs.yaw_sensor);
 }
-
+//-------------------------------------------------------------
+// Added by Sydney Schinstock AIAA-KSU 03/31/2014
 static void NOINLINE send_time(mavlink_channel_t chan)
 {
 	uint32_t fix_time;
@@ -282,6 +283,7 @@ static void NOINLINE send_time(mavlink_channel_t chan)
 		fix_time,
 		millis());
 }
+//-------------------------------------------------------------
 
 static void NOINLINE send_nav_controller_output(mavlink_channel_t chan)
 {
@@ -581,7 +583,7 @@ static bool mavlink_try_send_message(mavlink_channel_t chan, enum ap_message id,
         CHECK_PAYLOAD_SIZE(GLOBAL_POSITION_INT);
         send_location(chan);
         break;
-		
+	//Added by Sydney Schinstock AIAA-KSU	
 	case MSG_SYSTEM_TIME:
 		CHECK_PAYLOAD_SIZE(SYSTEM_TIME);
 		send_time(chan);
