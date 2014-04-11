@@ -47,6 +47,14 @@ const AP_Param::GroupInfo AP_Camera::var_info[] PROGMEM = {
     // @Range: 0 1000
     AP_GROUPINFO("TRIGG_DIST",  4, AP_Camera, _trigg_dist, 0),
 
+	//Added by Sydney Schinstock KSU AIAA (04/10/2013)
+	// @Param: CAMERA_DELAY
+	// @DisplayName: Camera trigger delay time
+	// @Description: Time in (1/10 second) delay from camera command to when actual picture was taken
+	// @User: Standard
+	// @Range: 0 1000
+	AP_GROUPINFO("CAMERA_DELAY", 5, AP_Camera, _camera_delay_duration, AP_CAMERA_CAMERA_DELAY_DURATION), 
+
     AP_GROUPEND
 };
 
@@ -69,6 +77,7 @@ AP_Camera::relay_pic()
 
     // leave a message that it should be active for this many loops (assumes 50hz loops)
     _trigger_counter = constrain_int16(_trigger_duration*5,0,255);
+	_camera_delay_counter = constrain_int16(_camera_delay_duration*5,0,255);
 }
 
 /// single entry point to take pictures
@@ -104,12 +113,23 @@ AP_Camera::trigger_pic_cleanup()
 				
         }
 	//Sydney Schinstock AIAA-KSU
-		if (_camera_delay)
+	// if time is not equal to camera delay, subtract one
+		if (_camera_delay_counter)
 		{
-			_camera_delay--;
-			GCS_MAVLINK::send_message(MSG_SYSTEM_TIME);
-			GCS_MAVLINK::send_message(MSG_ATTITUDE);
-			GCS_MAVLINK::send_message(MSG_LOCATION);
+			_camera_delay_counter--;
+
+		}
+	// if time is equal to camera delay, send system time, attitude of plane, and lat/long of plane
+		else
+		{
+	    // TODO: Figure out file include stuff...
+		//enum ap_message id = MSG_SYSTEM_TIME;
+		//gcs_send_message(id);
+
+		//gcs_send_message(MSG_ATTITUDE);
+		//	
+		//gcs_send_message(MSG_LOCATION);
+
 		}
     }
 }
