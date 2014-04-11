@@ -881,6 +881,16 @@ static void update_mount(void)
 
 #if CAMERA == ENABLED
     camera.trigger_pic_cleanup();
+	// TODO: AIAA Comment  - JW
+	if (camera.trigger_pic_notify())
+	{
+		enum ap_message id = MSG_SYSTEM_TIME;
+		gcs_send_message(id);
+		id = MSG_ATTITUDE;
+		gcs_send_message(id);
+		id = MSG_LOCATION;
+		gcs_send_message(id);
+	}
 #endif
 }
 

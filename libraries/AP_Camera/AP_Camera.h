@@ -44,6 +44,9 @@ public:
     // should be called at 50hz from main program
     void            trigger_pic_cleanup();
 
+	// TODO: Add comment; AIAA:JW
+	bool			trigger_pic_notify();
+
     // MAVLink methods
     void            configure_msg(mavlink_message_t* msg);
     void            control_msg(mavlink_message_t* msg);

@@ -67,6 +67,7 @@ AP_Camera::servo_pic()
 
 	// leave a message that it should be active for this many loops (assumes 50hz loops)
 	_trigger_counter = constrain_int16(_trigger_duration*5,0,255);
+	_camera_delay_counter = constrain_int16(_camera_delay_duration * 5, 0, 255);
 }
 
 /// basic relay activation
@@ -100,38 +101,45 @@ AP_Camera::trigger_pic()
 void
 AP_Camera::trigger_pic_cleanup()
 {
-    if (_trigger_counter) {
-        _trigger_counter--;
-    } else {
-        switch (_trigger_type) {
-            case AP_CAMERA_TRIGGER_TYPE_SERVO:
-                RC_Channel_aux::set_radio(RC_Channel_aux::k_cam_trigger, _servo_off_pwm);
-                break;
-            case AP_CAMERA_TRIGGER_TYPE_RELAY:
-                _apm_relay->off();
-                break;
-				
-        }
-	//Sydney Schinstock AIAA-KSU
+	if (_trigger_counter) {
+		_trigger_counter--;
+	}
+	else {
+		switch (_trigger_type) {
+		case AP_CAMERA_TRIGGER_TYPE_SERVO:
+			RC_Channel_aux::set_radio(RC_Channel_aux::k_cam_trigger, _servo_off_pwm);
+			break;
+		case AP_CAMERA_TRIGGER_TYPE_RELAY:
+			_apm_relay->off();
+			break;
+
+		}
+	}
+}
+// TODO: Comment AIAA:JW
+bool
+AP_Camera::trigger_pic_notify()
+{
+	static bool notified = true;
+    //Sydney Schinstock AIAA-KSU
 	// if time is not equal to camera delay, subtract one
-		if (_camera_delay_counter)
+	if (_camera_delay_counter)
+	{
+		_camera_delay_counter--;
+		// Check to see if the notified variable needs reset
+		if (notified == true)
 		{
-			_camera_delay_counter--;
-
+			notified = false;
 		}
+		return false;
+	}
 	// if time is equal to camera delay, send system time, attitude of plane, and lat/long of plane
-		else
-		{
-	    // TODO: Figure out file include stuff...
-		//enum ap_message id = MSG_SYSTEM_TIME;
-		//gcs_send_message(id);
-
-		//gcs_send_message(MSG_ATTITUDE);
-		//	
-		//gcs_send_message(MSG_LOCATION);
-
-		}
-    }
+	else if (notified == false)
+	{
+		notified == true;
+		return true;
+	}
+	return false;
 }
 
 /// decode MavLink that configures camera
