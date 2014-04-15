@@ -75,6 +75,9 @@ static bool suppress_throttle(void);
 static void channel_output_mixer(uint8_t mixing_type, int16_t &chan1_out, int16_t &chan2_out);
 static void set_servos(void);
 static void demo_servos(uint8_t i);
+static void check_drop_control();
+static uint8_t readArmPosition(void);
+static void reset_arm_switch();
 static NOINLINE void send_heartbeat(mavlink_channel_t chan);
 static NOINLINE void send_attitude(mavlink_channel_t chan);
 static NOINLINE void send_fence_status(mavlink_channel_t chan);
@@ -278,32 +281,33 @@ static void servo_write(uint8_t ch, uint16_t pwm);
 static void print_hit_enter();
 static void test_wp_print(const struct Location *cmd, uint8_t wp_index);
 
-#include "C:\ArduPilot-Arduino-1.0.3-windows\ArduPilot-Arduino-1.0.3-windows\hardware\apm\cores\apmHAL\arduino.h"
-#include "C:\ardupilot_AIAA\ArduPlane\ArduPlane.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\APM_Config.h"
-#include "C:\ardupilot_AIAA\ArduPlane\Attitude.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\GCS.h"
-#include "C:\ardupilot_AIAA\ArduPlane\GCS_Mavlink.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\Log.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\Parameters.h"
-#include "C:\ardupilot_AIAA\ArduPlane\Parameters.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\climb_rate.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\commands.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\commands_logic.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\commands_process.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\compat.h"
-#include "C:\ardupilot_AIAA\ArduPlane\compat.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\config.h"
-#include "C:\ardupilot_AIAA\ArduPlane\control_modes.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\defines.h"
-#include "C:\ardupilot_AIAA\ArduPlane\events.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\failsafe.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\geofence.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\navigation.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\radio.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\rally.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\sensors.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\setup.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\system.pde"
-#include "C:\ardupilot_AIAA\ArduPlane\test.pde"
+#include "C:\Program Files (x86)\ArduPilot-Arduino-1.0.3-windows\hardware\apm\cores\apmHAL\arduino.h"
+#include "C:\Github\ardupilot\ArduPlane\ArduPlane.pde"
+#include "C:\Github\ardupilot\ArduPlane\APM_Config.h"
+#include "C:\Github\ardupilot\ArduPlane\Attitude.pde"
+#include "C:\Github\ardupilot\ArduPlane\Drop_control.pde"
+#include "C:\Github\ardupilot\ArduPlane\GCS.h"
+#include "C:\Github\ardupilot\ArduPlane\GCS_Mavlink.pde"
+#include "C:\Github\ardupilot\ArduPlane\Log.pde"
+#include "C:\Github\ardupilot\ArduPlane\Parameters.h"
+#include "C:\Github\ardupilot\ArduPlane\Parameters.pde"
+#include "C:\Github\ardupilot\ArduPlane\climb_rate.pde"
+#include "C:\Github\ardupilot\ArduPlane\commands.pde"
+#include "C:\Github\ardupilot\ArduPlane\commands_logic.pde"
+#include "C:\Github\ardupilot\ArduPlane\commands_process.pde"
+#include "C:\Github\ardupilot\ArduPlane\compat.h"
+#include "C:\Github\ardupilot\ArduPlane\compat.pde"
+#include "C:\Github\ardupilot\ArduPlane\config.h"
+#include "C:\Github\ardupilot\ArduPlane\control_modes.pde"
+#include "C:\Github\ardupilot\ArduPlane\defines.h"
+#include "C:\Github\ardupilot\ArduPlane\events.pde"
+#include "C:\Github\ardupilot\ArduPlane\failsafe.pde"
+#include "C:\Github\ardupilot\ArduPlane\geofence.pde"
+#include "C:\Github\ardupilot\ArduPlane\navigation.pde"
+#include "C:\Github\ardupilot\ArduPlane\radio.pde"
+#include "C:\Github\ardupilot\ArduPlane\rally.pde"
+#include "C:\Github\ardupilot\ArduPlane\sensors.pde"
+#include "C:\Github\ardupilot\ArduPlane\setup.pde"
+#include "C:\Github\ardupilot\ArduPlane\system.pde"
+#include "C:\Github\ardupilot\ArduPlane\test.pde"
 #endif

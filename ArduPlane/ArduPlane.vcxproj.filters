@@ -36,6 +36,7 @@
     <None Include="setup.pde" />
     <None Include="system.pde" />
     <None Include="test.pde" />
+    <None Include="Drop_control.pde" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Visual Micro\.ArduPlane.vsarduino.h">

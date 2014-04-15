@@ -364,6 +364,8 @@ enum FlightMode control_mode  = INITIALISING;
 // Used to maintain the state of the previous control switch position
 // This is set to -1 when we need to re-read the switch
 uint8_t oldSwitchPosition;
+// For Egg Drop AIAA
+uint8_t oldArmPosition;
 // This is used to enable the inverted flight feature
 bool inverted_flight     = false;
 
@@ -725,6 +727,7 @@ static const AP_Scheduler::Task scheduler_tasks[] PROGMEM = {
     { stabilize,              1,   3200 },
     { set_servos,             1,   1100 },
     { read_control_switch,    7,   1000 },
+	{ check_drop_control,     7,   1000 },
     { update_GPS,             5,   4000 },
     { navigate,               5,   4800 },
     { update_compass,         5,   1500 },
