@@ -53,7 +53,7 @@ const AP_Param::GroupInfo AP_Camera::var_info[] PROGMEM = {
 	// @Description: Time in (1/10 second) delay from camera command to when actual picture was taken
 	// @User: Standard
 	// @Range: 0 1000
-	AP_GROUPINFO("CAMERA_DELAY", 5, AP_Camera, _camera_delay_duration, AP_CAMERA_CAMERA_DELAY_DURATION), 
+	AP_GROUPINFO("DELAY", 5, AP_Camera, _camera_delay_duration, AP_CAMERA_CAMERA_DELAY_DURATION), 
 
     AP_GROUPEND
 };
@@ -136,7 +136,7 @@ AP_Camera::trigger_pic_notify()
 	// if time is equal to camera delay, send system time, attitude of plane, and lat/long of plane
 	else if (notified == false)
 	{
-		notified == true;
+		notified = true;
 		return true;
 	}
 	return false;

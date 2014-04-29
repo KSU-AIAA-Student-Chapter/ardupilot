@@ -67,6 +67,11 @@ handle_process_condition_command()
         do_change_alt();
         break;
 
+	//Added by Sydney Schinstock AIAA-KSU 04/28/2014
+	case MAV_CMD_DO_EGG_DROP:
+		do_egg_drop();
+		break;
+
     default:
         break;
     }
@@ -191,6 +196,7 @@ static bool verify_nav_command()        // Returns true if command complete
     case MAV_CMD_NAV_RETURN_TO_LAUNCH:
         return verify_RTL();
 
+
     default:
         gcs_send_text_P(SEVERITY_HIGH,PSTR("verify_nav: Invalid or no current Nav cmd"));
     }
@@ -214,6 +220,10 @@ static bool verify_condition_command()          // Returns true if command compl
     case MAV_CMD_CONDITION_CHANGE_ALT:
         return verify_change_alt();
         break;
+
+	case MAV_CMD_DO_EGG_DROP:
+		return verify_egg_drop();
+		break;
 
     case WAIT_COMMAND:
         return 0;
@@ -485,6 +495,14 @@ static void do_within_distance()
 {
     condition_value  = next_nonnav_command.lat;
 }
+//Added by Sydney Schinstock AIAA-KSU
+static void do_egg_drop()
+{
+	condition_value = next_nonnav_command.lat;
+	condition_value2 = next_nonnav_command.lng;
+	condition_value3 = next_nonnav_command.alt;
+	condition_value4 = next_nonnav_command.p1;
+}
 
 /********************************************************************************/
 // Verify Condition (May) commands
@@ -517,6 +535,13 @@ static bool verify_within_distance()
         return true;
     }
     return false;
+}
+
+//Added by Sydney Schinstock AIAA-KSU
+//verify within egg drop zone using lat, long, alt, and wpradius
+static bool verify_egg_drop()
+{
+
 }
 
 /********************************************************************************/

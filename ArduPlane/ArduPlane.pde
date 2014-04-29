@@ -628,6 +628,9 @@ static struct {
 // A value used in condition commands (eg delay, change alt, etc.)
 // For example in a change altitude command, it is the altitude to change to.
 static int32_t condition_value;
+static int32_t condition_value2;
+static int32_t condition_value3;
+static int32_t condition_value4;
 // A starting value used to check the status of a conditional command.
 // For example in a delay command the condition_start records that start time for the delay
 static uint32_t condition_start;
