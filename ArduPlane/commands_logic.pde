@@ -541,7 +541,20 @@ static bool verify_within_distance()
 //verify within egg drop zone using lat, long, alt, and wpradius
 static bool verify_egg_drop()
 {
-
+	int32_t height;
+	int32_t time;
+	int32_t egg_dist;
+	height = (current_loc.alt - home.alt)*.01f;
+	time = sqrt(2*height/9.80665);
+	egg_dist = g_gps->ground_speed_cm*time;
+	// check if within distance AND if armed to drop
+	if (egg_dist <= condition_value4)
+	{
+		//servo_write(channel, pwm);
+		condition_value4 = 0;
+		return true;
+	}
+	return false;
 }
 
 /********************************************************************************/
