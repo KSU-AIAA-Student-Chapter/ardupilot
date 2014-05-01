@@ -53,6 +53,7 @@
 #include <AP_Buffer.h>      // APM FIFO Buffer
 #include <AP_Relay.h>       // APM relay
 #include <AP_Camera.h>          // Photo or video camera
+#include <AP_Eggdrop.h>
 #include <AP_Airspeed.h>
 #include <memcheck.h>
 
