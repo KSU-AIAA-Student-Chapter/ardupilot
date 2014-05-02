@@ -541,16 +541,31 @@ static bool verify_within_distance()
 //verify within egg drop zone using lat, long, alt, and wpradius
 static bool verify_egg_drop()
 {
-	int32_t height;
-	int32_t time;
-	int32_t egg_dist;
-	height = (current_loc.alt - home.alt)*.01f;
-	time = sqrt(2*height/9.80665);
-	egg_dist = g_gps->ground_speed_cm*time;
+	uint32_t height;
+	uint32_t time;
+	uint32_t egg_dist;
+	height = (current_loc.alt - home.alt);
+	time = sqrt(2*height*(10000/981));  	//gravity in cm/s^2, height in cm, time in 1/100 of a sec.
+	egg_dist = (g_gps->ground_speed_cm*time)/100; // ground speed in cm/sec, time 1/100 sec
+
+	Location target_loc = { 0, 0, 0, condition_value3, condition_value, condition_value2 };
+
+	Location proj_egg_drop = current_loc; //projected egg drop
+	location_update(proj_egg_drop, g_gps->ground_course_cd*100, egg_dist); //update projected egg drop location using egg dist and current bearing
+	
+	//get distance finds distanct between two lat and longs (no need for alt)
+	uint32_t target_dist = get_distance_cm(proj_egg_drop, target_loc);
+
 	// check if within distance AND if armed to drop
-	if (egg_dist <= condition_value4)
+	if (target_dist <= condition_value4)
 	{
-		//servo_write(channel, pwm);
+		//call dropping functions from ap eggdrop
+		eggdrop.door_open();
+		eggdrop.door_close();
+
+		condition_value = 0;
+		condition_value2 = 0;
+		condition_value3 = 0;
 		condition_value4 = 0;
 		return true;
 	}

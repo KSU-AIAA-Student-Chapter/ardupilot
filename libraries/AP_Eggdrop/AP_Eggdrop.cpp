@@ -10,7 +10,7 @@
 
 extern const AP_HAL::HAL& hal;
 
-const AP_Param::GroupInfo AP_Camera::var_info[] PROGMEM = {
+const AP_Param::GroupInfo AP_Eggdrop::var_info[] PROGMEM = {
 
 	// @Param: EGGDROP_CHANNEL
 	// @DisplayName: 
@@ -42,3 +42,42 @@ const AP_Param::GroupInfo AP_Camera::var_info[] PROGMEM = {
 
 	AP_GROUPEND
 };
+
+void
+AP_Eggdrop::door_open()
+{
+	RC_Channel_aux::set_radio(RC_Channel_aux::k_egg_drop, _servo_max);
+}
+
+void
+AP_Eggdrop::door_close()
+{
+	if (door_delay())
+	{
+		RC_Channel_aux::set_radio(RC_Channel_aux::k_egg_drop, _servo_min);
+	} 
+}
+
+bool
+AP_Eggdrop::door_delay()
+{
+	static bool notified = true;
+	// if time is not equal to time door needs to be open, subtract one
+	if (_time_open_counter)
+	{
+		_time_open_counter--;
+		// Check to see if the notified variable needs reset
+		if (notified == true)
+		{
+			notified = false;
+		}
+		return false;
+	}
+	// if time is equal to door time, close the door of egg drop mechanism
+	else if (notified == false)
+	{
+		notified = true;
+		return true;
+	}
+	return false;
+}
