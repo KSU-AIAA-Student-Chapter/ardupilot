@@ -93,6 +93,9 @@
     <None Include="control_modes.pde">
       <FileType>CppCode</FileType>
     </None>
+    <None Include="Drop_control.pde">
+      <FileType>CppCode</FileType>
+    </None>
     <None Include="events.pde">
       <FileType>CppCode</FileType>
     </None>

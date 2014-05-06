@@ -257,7 +257,15 @@
  # define FLIGHT_MODE_6                  MANUAL
 #endif
 
+#ifndef EGG_DROP_ARM_CHANNEL
+#define EGG_DROP_ARM_CHANNEL    7
+#endif
 
+#if (EGG_DROP_ARM_CHANNEL != 5) && (EGG_DROP_ARM_CHANNEL != 6) && (EGG_DROP_ARM_CHANNEL != 7) && (EGG_DROP_ARM_CHANNEL != 8) && (EGG_DROP_ARM_CHANNEL != FLIGHT_MODE_CHANNEL)
+# error XXX
+# error XXX You must set EGG_DROP_ARM_CHANNEL to 5, 6, 7 or 8 AND IT MUST NOT EQUALT TO THE FLIGHT_MODE_CHANNEL
+# error XXX
+#endif
 //////////////////////////////////////////////////////////////////////////////
 // THROTTLE_FAILSAFE
 // THROTTLE_FS_VALUE
