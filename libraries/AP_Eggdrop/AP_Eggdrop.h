@@ -23,7 +23,6 @@ class AP_Eggdrop {
 
 public:
 	void door_open();
-	void door_close();
 	
 	static const struct AP_Param::GroupInfo        var_info[];
 private:

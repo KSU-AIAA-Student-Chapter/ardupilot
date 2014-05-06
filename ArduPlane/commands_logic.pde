@@ -545,7 +545,7 @@ static bool verify_egg_drop()
 	uint32_t time;
 	uint32_t egg_dist;
 	height = (current_loc.alt - home.alt);
-	time = sqrt(2*height*(10000/981));  	//gravity in cm/s^2, height in cm, time in 1/100 of a sec.
+	time = sqrt(2*height*(10000/981));  	      //gravity in cm/s^2, height in cm, time in 1/100 of a sec.
 	egg_dist = (g_gps->ground_speed_cm*time)/100; // ground speed in cm/sec, time 1/100 sec
 
 	Location target_loc = { 0, 0, 0, condition_value3, condition_value, condition_value2 };
@@ -561,7 +561,6 @@ static bool verify_egg_drop()
 	{
 		//call dropping functions from ap eggdrop
 		eggdrop.door_open();
-		eggdrop.door_close();
 
 		condition_value = 0;
 		condition_value2 = 0;

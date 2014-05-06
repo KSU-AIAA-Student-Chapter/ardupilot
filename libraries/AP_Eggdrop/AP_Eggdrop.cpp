@@ -47,15 +47,13 @@ void
 AP_Eggdrop::door_open()
 {
 	RC_Channel_aux::set_radio(RC_Channel_aux::k_egg_drop, _servo_max);
-}
+	
+	_time_open_counter = constrain_int16(_time_open * 5, 0, 255);
 
-void
-AP_Eggdrop::door_close()
-{
 	if (door_delay())
 	{
 		RC_Channel_aux::set_radio(RC_Channel_aux::k_egg_drop, _servo_min);
-	} 
+	}
 }
 
 bool
