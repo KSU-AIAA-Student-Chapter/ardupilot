@@ -465,6 +465,11 @@ const AP_Param::Info var_info[] PROGMEM = {
     // @DisplayName: Flightmode channel
     // @Description: RC Channel to use for flight mode control
     // @User: Advanced
+
+	GSCALAR(egg_drop_arm_channel , "EGGDROP" , EGG_DROP_ARM_CHANNEL),
+	//@Param : EGGDROP
+	//@DisplayName : EGGDROP
+
     GSCALAR(flight_mode_channel,    "FLTMODE_CH",     FLIGHT_MODE_CHANNEL),
 
     // @Param: FLTMODE1

@@ -23,13 +23,13 @@ static void check_drop_control()
 			ArmPosition_debouncer = true;
 			return;
 		}
-		oldSwitchPosition = armPosition;
+		oldArmPosition = armPosition;
 	}
 	ArmPosition_debouncer = false;
 }
 
 static uint8_t readArmPosition(void){
-	uint16_t pulsewidth = hal.rcin->read(g.flight_mode_channel - 1);
+	uint16_t pulsewidth = hal.rcin->read(g.egg_drop_arm_channel - 1);
 	if (pulsewidth <= 910 || pulsewidth >= 2090) return 255;            // This is an error condition
 	if (pulsewidth > 1230 && pulsewidth <= 1360) return 1;
 	if (pulsewidth > 1360 && pulsewidth <= 1490) return 2;             // Software Manual

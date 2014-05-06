@@ -227,6 +227,11 @@ public:
         k_param_flight_mode5,
         k_param_flight_mode6,
 
+		//
+		// 217: Egg Drop arming channel
+		//
+		k_param_egg_drop_arm_channel = 217,
+
         //
         // 220: Waypoint data
         //
@@ -361,6 +366,10 @@ public:
     AP_Int8 flight_mode4;
     AP_Int8 flight_mode5;
     AP_Int8 flight_mode6;
+
+	// Egg drop arm Channel
+	//
+	AP_Int8 egg_drop_arm_channel;
 
     // Navigational maneuvering limits
     //
