@@ -362,7 +362,7 @@ enum FlightMode control_mode  = INITIALISING;
 // This is set to -1 when we need to re-read the switch
 uint8_t oldSwitchPosition;
 // For Egg Drop AIAA
-uint8_t oldArmPosition;
+uint8_t ArmState;
 // This is used to enable the inverted flight feature
 bool inverted_flight     = false;
 
