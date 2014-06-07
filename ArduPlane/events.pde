@@ -21,7 +21,7 @@ static void failsafe_short_on_event(enum failsafe_state fstype)
         if(g.short_fs_action == 2) {
             set_mode(FLY_BY_WIRE_A);
         } else {
-            set_mode(CIRCLE);
+            set_mode(RTL);
         }
         break;
 
