@@ -41,7 +41,7 @@ static void failsafe_short_on_event(enum failsafe_state fstype)
 
     case CIRCLE:
     case RTL:
-	case TERMINATING:
+	//case TERMINATING:
     default:
         break;
     }
@@ -66,9 +66,9 @@ static void failsafe_long_on_event(enum failsafe_state fstype)
     case TRAINING:
     case CIRCLE:
         if(g.long_fs_action == 2) {
-            set_mode(FLY_BY_WIRE_A);
+            //set_mode(FLY_BY_WIRE_A);
         } else {
-            set_mode(RTL);
+            //set_mode(RTL);
         }
         break;
 
@@ -78,14 +78,15 @@ static void failsafe_long_on_event(enum failsafe_state fstype)
         if(g.long_fs_action == 2) {
             set_mode(FLY_BY_WIRE_A);
         } else if (g.long_fs_action == 1) {
-            set_mode(RTL);
+            set_mode(RTL); // doesn't matter
+			terminating = true;
 			// Crash Plane
-			//servo_write
+			//Set a global variable
         }
         break;
 
     case RTL:
-	case TERMINATING:
+	//case TERMINATING:
     default:
         break;
     }

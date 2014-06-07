@@ -312,7 +312,7 @@ static void stabilize_acro(float speed_scaler)
  */
 static void stabilize()
 {
-    if (control_mode == MANUAL || control_mode == TERMINATING) {
+    if (control_mode == MANUAL) {// || control_mode == TERMINATING) {
         // nothing to do
         return;
     }
@@ -868,7 +868,7 @@ static void set_servos(void)
         channel_output_mixer(g.elevon_output, channel_pitch->radio_out, channel_roll->radio_out);
     }
 
-	if (control_mode == TERMINATING)
+	if (terminating == true)
 		{
 		channel_roll->radio_out = 4500;
 		channel_pitch->radio_out = 4500;

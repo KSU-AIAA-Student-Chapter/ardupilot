@@ -364,6 +364,8 @@ uint8_t oldSwitchPosition;
 // This is used to enable the inverted flight feature
 bool inverted_flight     = false;
 
+bool terminating = false;
+
 static struct {
     // These are trim values used for elevon control
     // For elevons radio_in[CH_ROLL] and radio_in[CH_PITCH] are
@@ -1317,8 +1319,8 @@ static void update_flight_mode(void)
         break;
         //roll: -13788.000,  pitch: -13698.000,   thr: 0.000, rud: -13742.000
         
-	case TERMINATING:
-		break;
+//	case TERMINATING:
+	//	break;
 
     case INITIALISING:
         // handled elsewhere
@@ -1355,7 +1357,7 @@ static void update_navigation()
     case FLY_BY_WIRE_A:
     case FLY_BY_WIRE_B:
     case CIRCLE:
-	case TERMINATING:
+	//case TERMINATING:
         // nothing to do
         break;
     }

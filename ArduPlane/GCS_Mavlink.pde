@@ -69,9 +69,9 @@ static NOINLINE void send_heartbeat(mavlink_channel_t chan)
     case INITIALISING:
         system_status = MAV_STATE_CALIBRATING;
         break;
-	case TERMINATING:
-		base_mode = MAV_MODE_FLAG_CUSTOM_MODE_ENABLED;
-		break;
+	//case TERMINATING:
+	//	base_mode = MAV_MODE_FLAG_CUSTOM_MODE_ENABLED;
+	//	break;
     }
 
     if (!training_manual_pitch || !training_manual_roll) {
@@ -188,7 +188,7 @@ static NOINLINE void send_extended_status1(mavlink_channel_t chan, uint16_t pack
     case LOITER:
     case GUIDED:
     case CIRCLE:
-	case TERMINATING:
+	//case TERMINATING:
         control_sensors_enabled |= MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL; // 3D angular rate control
         control_sensors_enabled |= MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION; // attitude stabilisation
         control_sensors_enabled |= MAV_SYS_STATUS_SENSOR_YAW_POSITION; // yaw position

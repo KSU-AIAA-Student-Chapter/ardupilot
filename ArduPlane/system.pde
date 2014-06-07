@@ -323,9 +323,9 @@ static void set_mode(enum FlightMode mode)
         set_guided_WP();
         break;
 
-	case TERMINATING:
-		// Do something here with WP's????
-		break;
+	//case TERMINATING:
+	//	// Do something here with WP's????
+	//	break;
 
     default:
         prev_WP = current_loc;
@@ -555,9 +555,9 @@ print_flight_mode(AP_HAL::BetterStream *port, uint8_t mode)
     case CIRCLE:
         port->print_P(PSTR("Circle"));
         break;
-	case TERMINATING:
-		port->print_P(PSTR("Terminating"));
-		break;
+	//case TERMINATING:
+	//	port->print_P(PSTR("Terminating"));
+	//	break;
     case STABILIZE:
         port->print_P(PSTR("Stabilize"));
         break;
