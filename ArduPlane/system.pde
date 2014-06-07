@@ -323,6 +323,10 @@ static void set_mode(enum FlightMode mode)
         set_guided_WP();
         break;
 
+	case TERMINATING:
+		// Do something here with WP's????
+		break;
+
     default:
         prev_WP = current_loc;
         do_RTL();
@@ -353,33 +357,33 @@ static void check_long_failsafe()
     uint32_t tnow = millis();
     // only act on changes
     // -------------------
-    if(failsafe.state != FAILSAFE_LONG && failsafe.state != FAILSAFE_GCS) {
-        if (failsafe.rc_override_active && (tnow - failsafe.last_heartbeat_ms) > g.long_fs_timeout*1000) {
+    if(failsafe.state != FAILSAFE_LONG && failsafe.state != FAILSAFE_GCS_LONG) {
+        /*if (failsafe.rc_override_active && (tnow - failsafe.last_heartbeat_ms) > g.long_fs_timeout*1000) {
             failsafe_long_on_event(FAILSAFE_LONG);
         } else if (!failsafe.rc_override_active && 
                    failsafe.state == FAILSAFE_SHORT && 
            (tnow - failsafe.ch3_timer_ms) > g.long_fs_timeout*1000) {
             failsafe_long_on_event(FAILSAFE_LONG);
-        } else if (g.gcs_heartbeat_fs_enabled && 
+        } else */if (g.gcs_heartbeat_fs_enabled && 
             failsafe.last_heartbeat_ms != 0 &&
             (tnow - failsafe.last_heartbeat_ms) > g.long_fs_timeout*1000) {
-            failsafe_long_on_event(FAILSAFE_GCS);
-        }
-    } else {
-        // We do not change state but allow for user to change mode
-        if (failsafe.state == FAILSAFE_GCS && 
-            (tnow - failsafe.last_heartbeat_ms) < g.short_fs_timeout*1000) {
-            failsafe.state = FAILSAFE_NONE;
-        } else if (failsafe.state == FAILSAFE_LONG && 
-                   failsafe.rc_override_active && 
-                   (tnow - failsafe.last_heartbeat_ms) < g.short_fs_timeout*1000) {
-            failsafe.state = FAILSAFE_NONE;
-        } else if (failsafe.state == FAILSAFE_LONG && 
-                   !failsafe.rc_override_active && 
-                   !failsafe.ch3_failsafe) {
-            failsafe.state = FAILSAFE_NONE;
-        }
-    }
+            failsafe_long_on_event(FAILSAFE_GCS_LONG);
+		}
+    } //else { // We Don't want to recover from a long failsafe ever
+    //    // We do not change state but allow for user to change mode
+    //    if (failsafe.state == FAILSAFE_GCS && 
+    //        (tnow - failsafe.last_heartbeat_ms) < g.short_fs_timeout*1000) {
+    //        failsafe.state = FAILSAFE_NONE;
+    //    } else if (failsafe.state == FAILSAFE_LONG && 
+    //               failsafe.rc_override_active && 
+    //               (tnow - failsafe.last_heartbeat_ms) < g.short_fs_timeout*1000) {
+    //        failsafe.state = FAILSAFE_NONE;
+    //    } else if (failsafe.state == FAILSAFE_LONG && 
+    //               !failsafe.rc_override_active && 
+    //               !failsafe.ch3_failsafe) {
+    //        failsafe.state = FAILSAFE_NONE;
+    //    }
+    //}
 }
 
 static void check_short_failsafe()
@@ -397,6 +401,22 @@ static void check_short_failsafe()
             failsafe_short_off_event();
         }
     }
+
+	if (failsafe.state == FAILSAFE_NONE &&
+		g.gcs_heartbeat_fs_enabled &&
+		failsafe.last_heartbeat_ms != 0 &&
+		(millis() - failsafe.last_heartbeat_ms) > g.short_fs_timeout * 1000) {
+		failsafe_short_on_event(FAILSAFE_GCS_SHORT);
+	}
+
+	if (failsafe.state == FAILSAFE_GCS_SHORT &&
+		g.gcs_heartbeat_fs_enabled &&
+		failsafe.last_heartbeat_ms != 0 &&
+		(millis() - failsafe.last_heartbeat_ms) < g.short_fs_timeout * 1000) {
+		failsafe_short_off_event();
+	}
+	
+
 }
 
 
@@ -535,6 +555,9 @@ print_flight_mode(AP_HAL::BetterStream *port, uint8_t mode)
     case CIRCLE:
         port->print_P(PSTR("Circle"));
         break;
+	case TERMINATING:
+		port->print_P(PSTR("Terminating"));
+		break;
     case STABILIZE:
         port->print_P(PSTR("Stabilize"));
         break;

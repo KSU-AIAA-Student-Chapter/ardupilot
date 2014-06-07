@@ -312,7 +312,7 @@ static void stabilize_acro(float speed_scaler)
  */
 static void stabilize()
 {
-    if (control_mode == MANUAL) {
+    if (control_mode == MANUAL || control_mode == TERMINATING) {
         // nothing to do
         return;
     }
@@ -867,6 +867,14 @@ static void set_servos(void)
     } else if (g.elevon_output != MIXING_DISABLED) {
         channel_output_mixer(g.elevon_output, channel_pitch->radio_out, channel_roll->radio_out);
     }
+
+	if (control_mode == TERMINATING)
+		{
+		channel_roll->radio_out = 4500;
+		channel_pitch->radio_out = 4500;
+		channel_rudder->radio_out = 4500;
+		channel_throttle->radio_out = 0;
+		}
 
     // send values to the PWM timers for output
     // ----------------------------------------

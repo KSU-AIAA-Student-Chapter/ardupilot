@@ -22,7 +22,8 @@ enum failsafe_state {
     FAILSAFE_NONE=0,
     FAILSAFE_SHORT=1,
     FAILSAFE_LONG=2,
-    FAILSAFE_GCS=3
+    FAILSAFE_GCS_LONG=3,
+	FAILSAFE_GCS_SHORT = 4
 };
 
 
@@ -68,7 +69,8 @@ enum FlightMode {
     RTL           = 11,
     LOITER        = 12,
     GUIDED        = 15,
-    INITIALISING  = 16
+    INITIALISING  = 16,
+	TERMINATING   = 17
 };
 
 // type of stick mixing enabled

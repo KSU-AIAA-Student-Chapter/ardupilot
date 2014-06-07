@@ -1317,6 +1317,9 @@ static void update_flight_mode(void)
         break;
         //roll: -13788.000,  pitch: -13698.000,   thr: 0.000, rud: -13742.000
         
+	case TERMINATING:
+		break;
+
     case INITIALISING:
         // handled elsewhere
         break;
@@ -1352,6 +1355,7 @@ static void update_navigation()
     case FLY_BY_WIRE_A:
     case FLY_BY_WIRE_B:
     case CIRCLE:
+	case TERMINATING:
         // nothing to do
         break;
     }

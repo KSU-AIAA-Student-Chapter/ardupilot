@@ -34,13 +34,14 @@ static void failsafe_short_on_event(enum failsafe_state fstype)
             if(g.short_fs_action == 2) {
                 set_mode(FLY_BY_WIRE_A);
             } else {
-                set_mode(CIRCLE);
+                set_mode(RTL);
             }
         }
         break;
 
     case CIRCLE:
     case RTL:
+	case TERMINATING:
     default:
         break;
     }
@@ -78,10 +79,13 @@ static void failsafe_long_on_event(enum failsafe_state fstype)
             set_mode(FLY_BY_WIRE_A);
         } else if (g.long_fs_action == 1) {
             set_mode(RTL);
+			// Crash Plane
+			//servo_write
         }
         break;
 
     case RTL:
+	case TERMINATING:
     default:
         break;
     }
