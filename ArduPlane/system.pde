@@ -360,15 +360,15 @@ static void check_long_failsafe()
     if(failsafe.state != FAILSAFE_LONG && failsafe.state != FAILSAFE_GCS_LONG) {
         /*if (failsafe.rc_override_active && (tnow - failsafe.last_heartbeat_ms) > g.long_fs_timeout*1000) {
             failsafe_long_on_event(FAILSAFE_LONG);
-        } else if (!failsafe.rc_override_active && 
+        } else*/ if (!failsafe.rc_override_active && 
                    failsafe.state == FAILSAFE_SHORT && 
            (tnow - failsafe.ch3_timer_ms) > g.long_fs_timeout*1000) {
             failsafe_long_on_event(FAILSAFE_LONG);
-        } else */if (g.gcs_heartbeat_fs_enabled && 
+        } /*else if (g.gcs_heartbeat_fs_enabled && 
             failsafe.last_heartbeat_ms != 0 &&
             (tnow - failsafe.last_heartbeat_ms) > g.long_fs_timeout*1000) {
             failsafe_long_on_event(FAILSAFE_GCS_LONG);
-		}
+		}*/
     } //else { // We Don't want to recover from a long failsafe ever
     //    // We do not change state but allow for user to change mode
     //    if (failsafe.state == FAILSAFE_GCS && 
