@@ -69,6 +69,8 @@ static void failsafe_long_on_event(enum failsafe_state fstype)
             //set_mode(FLY_BY_WIRE_A);
         } else {
             //set_mode(RTL);
+			// Comment this out after testing!!!!!!!
+			terminating = true;
         }
         break;
 
