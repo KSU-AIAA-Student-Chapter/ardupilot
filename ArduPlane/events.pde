@@ -77,6 +77,7 @@ static void failsafe_long_on_event(enum failsafe_state fstype)
     case AUTO:
     case GUIDED:
     case LOITER:
+	case RTL:
         if(g.long_fs_action == 2) {
             set_mode(FLY_BY_WIRE_A);
         } else if (g.long_fs_action == 1) {
@@ -86,8 +87,6 @@ static void failsafe_long_on_event(enum failsafe_state fstype)
 			//Set a global variable
         }
         break;
-
-    case RTL:
 	//case TERMINATING:
     default:
         break;

@@ -393,6 +393,7 @@ static void check_short_failsafe()
     if(failsafe.state == FAILSAFE_NONE) {
         if(failsafe.ch3_failsafe) {                                              // The condition is checked and the flag ch3_failsafe is set in radio.pde
             failsafe_short_on_event(FAILSAFE_SHORT);
+			//failsafe_long_on_event(FAILSAFE_GCS_LONG);
         }
     }
 
